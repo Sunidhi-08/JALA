@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A hands-on introduction to HTML, HTML5, CSS, and JavaScript.">
+  <title>HTML Basics | Field Notes</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17392f;
+      --muted: #536b63;
+      --paper: #f3f7f3;
+      --line: #c9d8cf;
+      --leaf: #cce9d8;
+      --coral: #d9573b;
+      --white: #fff;
+      font-family: "Trebuchet MS", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background-image: radial-gradient(#b5ccbd 0.65px, transparent 0.65px);
+      background-size: 18px 18px;
+    }
+
+    a { color: inherit; }
+
+    a:hover { color: var(--coral); }
+
+    a:focus-visible, input:focus-visible {
+      outline: 3px solid var(--coral);
+      outline-offset: 4px;
+    }
+
+    .page-shell {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+
+    .masthead nav { display: flex; gap: 22px; }
+
+    .masthead nav a {
+      font-size: 13px;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+      padding: 72px 0 64px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--coral);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1, h2, h3 { font-family: Georgia, serif; font-weight: 500; }
+
+    h1 { max-width: 540px; margin-bottom: 20px; font-size: clamp(42px, 6vw, 76px); line-height: 0.98; }
+
+    .intro { max-width: 490px; color: var(--muted); font-size: 17px; line-height: 1.7; }
+
+    .hero-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 13px 17px;
+      border-radius: 3px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .hero-link:hover { background: var(--coral); color: var(--white); }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 3px;
+      background: var(--leaf);
+    }
+
+    .image-note { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
+
+    .lesson {
+      padding: 54px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: 22px;
+      align-items: baseline;
+      margin-bottom: 26px;
+    }
+
+    .section-number { color: var(--coral); font-size: 12px; font-weight: 800; }
+
+    h2 { margin-bottom: 0; font-size: clamp(30px, 4vw, 44px); }
+
+    .lesson-copy { max-width: 720px; margin-left: 122px; color: var(--muted); line-height: 1.75; }
+
+    .lesson-copy strong { color: var(--ink); }
+
+    .topic-list { padding-left: 20px; }
+
+    .topic-list li { padding: 5px 0; }
+
+    .topic-list li:first-child::marker { color: var(--coral); }
+
+    blockquote {
+      margin: 30px 0 0;
+      padding: 5px 0 5px 20px;
+      border-left: 3px solid var(--coral);
+      color: var(--ink);
+      font-family: Georgia, serif;
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .answer { position: relative; }
+
+    .answer::before {
+      content: "HTML";
+      display: inline-block;
+      margin-right: 9px;
+      padding: 3px 7px;
+      border-radius: 2px;
+      background: var(--leaf);
+      color: var(--ink);
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      vertical-align: 2px;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      margin-left: 122px;
+    }
+
+    .comparison h3 { margin-bottom: 8px; font-size: 23px; }
+
+    .comparison p { margin-bottom: 0; color: var(--muted); line-height: 1.7; }
+
+    .review-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 26px 0 0 122px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .review-control input { width: 18px; height: 18px; accent-color: var(--coral); }
+
+    .review-control input:checked + span::after { content: "  Reviewed"; color: var(--coral); }
+
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 0 30px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 680px) {
+      .page-shell { width: min(100% - 32px, 520px); }
+      .masthead { min-height: 64px; }
+      .masthead nav { gap: 12px; }
+      .masthead nav a { font-size: 12px; }
+      .hero { grid-template-columns: 1fr; gap: 28px; padding: 52px 0 42px; }
+      .hero-image { aspect-ratio: 16 / 10; }
+      .lesson { padding: 38px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 8px; margin-bottom: 18px; }
+      .lesson-copy, .comparison, .review-control { margin-left: 0; }
+      .comparison { grid-template-columns: 1fr; gap: 22px; }
+      .page-footer { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <a class="wordmark" href="#top">FIELD NOTES / 01</a>
+      <nav aria-label="Page sections">
+        <a href="#elements">HTML elements</a>
+        <a href="#difference">Quick guide</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Front-end foundations / Lesson 01</p>
+          <h1 id="page-title">HTML is the structure.</h1>
+          <p class="intro">A web page begins with meaning: a heading to introduce an idea, a paragraph to explain it, and links that lead somewhere useful. This page is a small tour of those building blocks.</p>
+          <a class="hero-link" href="#elements">Explore the elements <span aria-hidden="true">&darr;</span></a>
+        </div>
+        <div>
+          <img class="hero-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1100&q=85" alt="Laptop displaying code in a bright workspace">
+          <p class="image-note">A page is content, organized for people and browsers.</p>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="lesson" id="elements" aria-labelledby="elements-title">
+        <div class="section-heading">
+          <span class="section-number">01 / ELEMENTS</span>
+          <h2 id="elements-title">A page, piece by piece</h2>
+        </div>
+        <div class="lesson-copy">
+          <p class="answer">HTML stands for <strong>HyperText Markup Language</strong>. It describes the content and structure of a web page. An <em>emphasized phrase</em> and a <b>visually bold phrase</b> are both inline examples, while this paragraph occupies its own block.</p>
+          <p>Follow the <a href="#difference">quick guide below</a>, or jump back to the <a href="#top">top of this page</a>. These links navigate between sections without leaving the document.</p>
+          <ul class="topic-list">
+            <li>HTML gives content structure and meaning.</li>
+            <li>CSS controls presentation and layout.</li>
+            <li>JavaScript adds behavior and interaction.</li>
+          </ul>
+          <blockquote>Good markup makes a page understandable before it is made beautiful.</blockquote>
+          <label class="review-control" for="reviewed">
+            <input id="reviewed" type="checkbox">
+            <span>Mark this lesson reviewed</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="lesson" id="difference" aria-labelledby="difference-title">
+        <div class="section-heading">
+          <span class="section-number">02 / QUICK GUIDE</span>
+          <h2 id="difference-title">What each technology does</h2>
+        </div>
+        <div class="comparison">
+          <div>
+            <h3>HTML and HTML5</h3>
+            <p>HTML is the standard markup language for structuring web content. HTML5 is the modern version of that standard, with native audio, video, semantic elements, and improved form controls.</p>
+          </div>
+          <div>
+            <h3>CSS and JavaScript</h3>
+            <p>CSS styles and lays out the structure. JavaScript is a programming language that can respond to events, update content, and make a page interactive. They complement HTML rather than replace it.</p>
+          </div>
+          <div>
+            <h3><code>&lt;div&gt;</code> and <code>&lt;span&gt;</code></h3>
+            <p>A <code>div</code> is a generic block-level container, useful for grouping a section of content. A <code>span</code> is a generic inline container, useful for styling or identifying a small part of text, such as <span>this phrase</span>.</p>
+          </div>
+          <div>
+            <h3>Try the page styles</h3>
+            <p>Hover over a link, focus it with the keyboard, or check the lesson box. Those states use CSS pseudo-classes; the small label above was added with a pseudo-element.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <span>HTML Basics / Assignment 01</span>
+      <a href="#top">Back to top &uarr;</a>
+    </footer>
+  </div>
+</body>
+</html>
