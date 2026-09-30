@@ -1,21 +1,37 @@
 # JALA Front-End Assignments
 
-Solutions to the JALA Academy front-end assignments, added one at a time.
+Browser-based solutions to the JALA Academy front-end exercises. Start at [index.html](index.html) to browse each assignment.
 
-## Progress
+## Run locally
 
-- [x] HTML Basics: [basics.html](basics.html)
-- [ ] HTML5 Input Attributes
-- [ ] HTML5 Semantic Elements
-- [ ] CSS Basics
-- [ ] CSS Page Adjustments
-- [ ] CSS Effects
-- [ ] CSS Compatibility
-- [ ] JavaScript Basics
-- [ ] JavaScript Access and Properties
-- [ ] JavaScript Events
-- [ ] AngularJS assignments (optional)
+Serve the repository root over HTTP so AngularJS can load local JSON and templates:
 
-## Run
+```powershell
+python -m http.server 8000
+```
 
-Open `basics.html` in a browser. The original assignment PDFs are kept locally and excluded from this repository.
+Then open `http://localhost:8000/`. The AngularJS pages load AngularJS 1.8.2 from Google's CDN, so they need an internet connection.
+
+## Assignment status
+
+- [x] HTML Basics
+- [x] HTML5 Input Attributes
+- [x] HTML5 Semantic Elements
+- [x] CSS Basics
+- [x] CSS Page Adjustments
+- [x] CSS Effects
+- [x] CSS Compatibility
+- [x] JavaScript Basics
+- [x] JavaScript Access and Properties
+- [x] JavaScript Events
+- [x] AngularJS Basics (optional legacy set)
+- [x] AngularJS Filters
+- [x] AngularJS JSON
+- [x] AngularJS Events
+- [x] AngularJS Elements and Validations
+
+## MySQL exercise
+
+`angular/events.html` runs against sample JSON by default. The MySQL button expects a PHP-enabled server and MySQL database. Apply `angular/mysql/schema.sql`, configure `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` as environment variables, then serve the PHP endpoint. GitHub Pages does not execute PHP.
+
+The assignment PDFs remain in the local workspace and are excluded from this repository.

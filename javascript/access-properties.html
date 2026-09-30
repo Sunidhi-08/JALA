@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Access and Properties</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { margin-top: 0; font-size: 28px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .note { color: #536b63; line-height: 1.7; }
+    section { padding: 26px 0; border-top: 1px solid #c9d8cf; }
+    .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    button { min-height: 42px; padding: 10px 14px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    output { display: block; min-height: 48px; margin-top: 12px; padding: 14px; background: #e5f0e8; white-space: pre-wrap; }
+    .counter-value { min-width: 50px; font-size: 24px; font-weight: 800; text-align: center; }
+    .hidden-message { padding: 12px; border-left: 3px solid #d9573b; background: white; }
+    .hidden-message[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">JavaScript / Assignment 02</p>
+    <h1>Access and properties</h1>
+    <p class="note">A function's call context and an object's accessors can change how values are read or updated.</p>
+
+    <section aria-labelledby="this-title">
+      <h2 id="this-title">Use this to hide the clicked button</h2>
+      <p class="note">The handler uses a regular function so <code>this</code> is the button that received the click.</p>
+      <div class="demo-row"><button type="button" id="hide-button">Hide this button</button><p class="hidden-message" id="hide-message">The button is hidden with its own <code>this</code> reference.</p></div>
+    </section>
+
+    <section aria-labelledby="call-title">
+      <h2 id="call-title">Function call() and apply()</h2>
+      <p class="note">Both set <code>this</code>. <code>call()</code> receives arguments individually; <code>apply()</code> receives them in an array.</p>
+      <button type="button" id="call-apply">Compare call and apply</button>
+      <output id="call-output" aria-live="polite">Choose the button to run both calls.</output>
+    </section>
+
+    <section aria-labelledby="counter-title">
+      <h2 id="counter-title">Counter</h2>
+      <div class="demo-row"><button type="button" id="increment">Count</button><output class="counter-value" id="counter-value" aria-live="polite">0</output></div>
+    </section>
+
+    <section aria-labelledby="accessor-title">
+      <h2 id="accessor-title">Counter with getter and setter</h2>
+      <p class="note">The setter accepts only non-negative integers, so the object's internal value stays valid.</p>
+      <div class="demo-row"><button type="button" id="increment-accessor">Set next value</button><output class="counter-value" id="accessor-value" aria-live="polite">0</output></div>
+    </section>
+
+    <section aria-labelledby="prototype-title">
+      <h2 id="prototype-title">Add behavior through a prototype</h2>
+      <p class="note">Constructor functions expose a prototype object. Instances inherit properties added there.</p>
+      <button type="button" id="prototype-demo">Inspect inherited properties</button>
+      <output id="prototype-output" aria-live="polite">Choose the button to create an example instance.</output>
+    </section>
+  </main>
+  <script>
+    const hideButton = document.querySelector("#hide-button");
+    hideButton.addEventListener("click", function () {
+      this.hidden = true;
+      document.querySelector("#hide-message").textContent = "Hidden: the event handler used this to identify the clicked button.";
+    });
+
+    function introduce(city, country) {
+      return `${this.firstname} ${this.lastname} lives in ${city}, ${country}.`;
+    }
+
+    document.querySelector("#call-apply").addEventListener("click", () => {
+      const person = { firstname: "Asha", lastname: "Rao" };
+      const viaCall = introduce.call(person, "Hyderabad", "India");
+      const viaApply = introduce.apply(person, ["Pune", "India"]);
+      document.querySelector("#call-output").textContent = `call(): ${viaCall}\napply(): ${viaApply}`;
+    });
+
+    let count = 0;
+    document.querySelector("#increment").addEventListener("click", () => {
+      count += 1;
+      document.querySelector("#counter-value").textContent = count;
+    });
+
+    const protectedCounter = {
+      _value: 0,
+      get value() {
+        return this._value;
+      },
+      set value(nextValue) {
+        if (Number.isInteger(nextValue) && nextValue >= 0) this._value = nextValue;
+      }
+    };
+
+    document.querySelector("#increment-accessor").addEventListener("click", () => {
+      protectedCounter.value = protectedCounter.value + 1;
+      document.querySelector("#accessor-value").textContent = protectedCounter.value;
+    });
+
+    function LessonTopic(name) {
+      this.name = name;
+    }
+
+    LessonTopic.prototype.category = "Practice";
+    LessonTopic.prototype.describe = function () {
+      return `${this.name} is a ${this.category.toLowerCase()} topic.`;
+    };
+
+    document.querySelector("#prototype-demo").addEventListener("click", () => {
+      const topic = new LessonTopic("JavaScript prototypes");
+      document.querySelector("#prototype-output").textContent = `${topic.describe()}\nOwn name property: ${Object.hasOwn(topic, "name")}\nOwn category property: ${Object.hasOwn(topic, "category")}\nInherited category value: ${topic.category}`;
+    });
+  </script>
+</body>
+</html>

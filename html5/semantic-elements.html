@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML5 Semantic Elements</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .layout { width: min(960px, calc(100% - 36px)); margin: 0 auto; }
+    a { color: #a83f2d; }
+    a:hover { color: #17392f; }
+    a:focus-visible, input:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    header, footer { padding: 20px 0; border-bottom: 1px solid #c9d8cf; }
+    footer { border-top: 1px solid #c9d8cf; border-bottom: 0; color: #536b63; font-size: 13px; }
+    h1, h2, h3 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(36px, 7vw, 64px); }
+    h2 { margin-top: 0; font-size: 30px; }
+    h3 { font-size: 22px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    nav { display: flex; flex-wrap: wrap; gap: 18px; padding: 12px 0; }
+    main { padding: 30px 0; }
+    section { padding: 30px 0; border-top: 1px solid #c9d8cf; }
+    article { padding: 18px; border-left: 3px solid #d9573b; background: #e5f0e8; }
+    aside { margin: 18px 0; padding: 14px; background: #fff; color: #536b63; }
+    figure { margin: 20px 0; padding: 20px; background: #cce9d8; }
+    figcaption { margin-top: 8px; color: #536b63; font-size: 13px; }
+    mark { background: #f3c76a; color: #17392f; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 10px; border-bottom: 1px solid #c9d8cf; }
+    form { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
+    label { display: grid; gap: 5px; color: #536b63; font-size: 13px; }
+    input, button { min-height: 40px; padding: 8px 10px; border: 1px solid #9fb7a9; border-radius: 2px; font: inherit; }
+    button { border-color: #17392f; background: #17392f; color: #fff; cursor: pointer; }
+    .generic-demo { padding: 14px; border: 1px dashed #9fb7a9; }
+    @media (max-width: 580px) { th, td { padding: 8px 5px; font-size: 13px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <header>
+      <p class="eyebrow">HTML5 / Assignment 03</p>
+      <hgroup>
+        <h1>Meaningful structure</h1>
+        <p>Semantic elements tell browsers and people what each region is for.</p>
+      </hgroup>
+      <nav aria-label="Page sections">
+        <a href="#generic">Generic elements</a>
+        <a href="#semantic">Semantic elements</a>
+        <a href="#differences">HTML4 and HTML5</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="generic" aria-labelledby="generic-title">
+        <h2 id="generic-title">Generic containers</h2>
+        <p>Use a <code>div</code> to group block content when no semantic element fits. Use a <code>span</code> for a small inline fragment, like <span>this highlighted phrase</span>. They carry no special meaning by themselves.</p>
+        <div class="generic-demo"><strong>One generic div</strong> with an inline <span>span inside it</span>.</div>
+      </section>
+
+      <section id="semantic" aria-labelledby="semantic-title">
+        <h2 id="semantic-title">A small publication</h2>
+        <article>
+          <header>
+            <h3>Why semantics matter</h3>
+            <p>Published <time datetime="2026-09-30">September 30, 2026</time></p>
+          </header>
+          <p>Semantic HTML describes a page's purpose, not only its appearance. A screen reader can identify landmarks, while a browser can expose the structure to other tools.</p>
+          <figure>
+            <div aria-hidden="true">Structure &rarr; meaning &rarr; understanding</div>
+            <figcaption>A figure pairs a visual or example with its caption.</figcaption>
+          </figure>
+          <p>Use <mark>mark</mark> to identify text relevant to the current context.</p>
+          <footer>Article footer: reading time, sources, or author details can live here.</footer>
+        </article>
+        <aside>Aside: related material that supports the main article without interrupting it.</aside>
+
+        <h3>Course sessions</h3>
+        <table>
+          <thead><tr><th scope="col">Session</th><th scope="col">Topic</th><th scope="col">Duration</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">01</th><td>HTML structure</td><td>30 min</td></tr>
+            <tr><th scope="row">02</th><td>Accessible labels</td><td>25 min</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Join the reading list</h3>
+        <form action="#signup" method="get" id="signup">
+          <label for="reader-name">Name<input id="reader-name" name="name" required></label>
+          <label for="reader-email">Email<input id="reader-email" name="email" type="email" required></label>
+          <button type="submit">Sign up</button>
+        </form>
+      </section>
+
+      <section id="differences" aria-labelledby="differences-title">
+        <h2 id="differences-title">HTML4 patterns and HTML5 meaning</h2>
+        <p>Older pages often used generic containers with IDs such as <code>&lt;div id="header"&gt;</code>, <code>&lt;div id="content"&gt;</code>, and <code>&lt;div id="footer"&gt;</code>. HTML5 introduced semantic <code>header</code>, <code>main</code>, <code>article</code>, and <code>footer</code> elements so those roles are explicit. A <code>menu</code> was historically treated much like a list; navigation links are now commonly grouped in <code>nav</code>. The distinction is meaning and accessibility, not an automatic visual style.</p>
+      </section>
+    </main>
+
+    <footer>Semantic Elements / Assignment 03</footer>
+  </div>
+</body>
+</html>

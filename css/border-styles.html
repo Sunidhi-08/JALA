@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Border Styles</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(820px, calc(100% - 36px)); margin: 0 auto; padding: 44px 0; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { margin-top: 36px; font-size: 27px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .border-demo { margin: 30px 0; padding: 28px; border-top: 5px solid #d9573b; border-right: 8px dashed #39876b; border-bottom: 7px double #536b63; border-left: 6px dotted #d79a20; background: white; line-height: 1.7; }
+    .samples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .sample { padding: 16px; background: white; }
+    .solid { border: 3px solid #17392f; }
+    .dashed { border: 3px dashed #d9573b; }
+    .dotted { border: 3px dotted #39876b; }
+    .double { border: 5px double #d79a20; }
+    a { color: #a83f2d; }
+    a:focus-visible { outline: 3px solid #d9573b; outline-offset: 4px; }
+    @media (max-width: 520px) { .samples { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">CSS / Border styles</p>
+    <h1>Four edges, four treatments.</h1>
+    <p>Each side of the large example has its own width, pattern, and color.</p>
+    <div class="border-demo">Top: 5px solid coral. Right: 8px dashed green. Bottom: 7px double gray. Left: 6px dotted gold. Border properties can be set per side for precise control.</div>
+    <h2>Compare border patterns</h2>
+    <div class="samples">
+      <div class="sample solid">Solid</div>
+      <div class="sample dashed">Dashed</div>
+      <div class="sample dotted">Dotted</div>
+      <div class="sample double">Double</div>
+    </div>
+    <p><a href="basics.html">Return to CSS Basics</a></p>
+  </main>
+</body>
+</html>

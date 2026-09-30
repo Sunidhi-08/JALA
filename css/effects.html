@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Effects and Positioning</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; scroll-behavior: smooth; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { margin-top: 0; font-size: 29px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    section { padding: 30px 0; border-top: 1px solid #c9d8cf; }
+    .photo-frame { width: min(520px, 100%); overflow: hidden; border-radius: 3px; box-shadow: 0 7px 18px rgb(23 57 47 / 22%); transition: box-shadow 180ms ease, transform 180ms ease; }
+    .photo-frame:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgb(23 57 47 / 30%); }
+    .photo-frame img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .photo-frame figcaption { padding: 10px 12px; background: white; color: #536b63; font-size: 13px; }
+    .animated-note { width: fit-content; padding: 13px 16px; border-left: 4px solid #d9573b; background: #cce9d8; animation-name: arrive; animation-duration: 1.2s; animation-delay: 180ms; animation-iteration-count: 2; animation-fill-mode: both; }
+    @keyframes arrive { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: translateX(0); } }
+    .pagination { display: flex; gap: 8px; margin: 12px 0 24px; }
+    .pagination-tight { display: flex; gap: 0; }
+    .pagination a { min-width: 42px; padding: 10px; border: 1px solid #9fb7a9; text-align: center; text-decoration: none; }
+    .pagination a:hover, .pagination a[aria-current="page"] { background: #17392f; color: white; }
+    .position-demo { min-height: 290px; padding: 16px; border: 1px dashed #9fb7a9; background: white; }
+    .position-static { position: static; padding: 8px; background: #e5f0e8; }
+    .position-relative { position: relative; min-height: 128px; margin-top: 14px; padding: 18px; border: 1px solid #c9d8cf; }
+    .position-absolute { position: absolute; right: 12px; bottom: 12px; padding: 8px; background: #f3c76a; }
+    .sticky-note { position: sticky; top: 0; z-index: 1; width: fit-content; padding: 9px 12px; background: #d9573b; color: white; }
+    .fixed-note { position: fixed; right: 12px; bottom: 12px; z-index: 2; max-width: 150px; padding: 8px 10px; border-radius: 2px; background: #17392f; color: white; font-size: 12px; }
+    .scroll-box { height: 130px; overflow: auto; padding: 14px; border: 1px solid #9fb7a9; background: white; line-height: 1.7; }
+    .opacity-image { display: block; width: min(520px, 100%); aspect-ratio: 16 / 9; object-fit: cover; opacity: 0.55; transition: opacity 180ms ease; }
+    .opacity-image:hover { opacity: 1; }
+    .note { color: #536b63; line-height: 1.7; }
+    @media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto; } *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+    @media (max-width: 520px) { .pagination a { min-width: 36px; padding: 9px 7px; } .fixed-note { right: 8px; bottom: 8px; } }
+  </style>
+</head>
+<body>
+  <aside class="fixed-note">position: fixed</aside>
+  <main>
+    <p class="eyebrow">CSS / Assignment 03</p>
+    <h1>Effects in motion</h1>
+    <p class="note">Shadows, transitions, animation, position, overflow, and opacity can all communicate state. Motion is reduced when a visitor requests reduced motion.</p>
+
+    <section aria-labelledby="shadow-title">
+      <h2 id="shadow-title">Shadow on hover</h2>
+      <figure class="photo-frame">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80" alt="Laptop with code on screen">
+        <figcaption>Move the pointer over the image to lift its shadow.</figcaption>
+      </figure>
+    </section>
+
+    <section aria-labelledby="animation-title">
+      <h2 id="animation-title">Named animation</h2>
+      <p class="animated-note">Animation: arrive / 1.2 seconds / 2 iterations / 180 ms delay.</p>
+    </section>
+
+    <section aria-labelledby="pagination-title">
+      <h2 id="pagination-title">Pagination with and without gaps</h2>
+      <nav class="pagination" aria-label="Pagination with spaces"><a href="#pagination-title" aria-label="Page 1" aria-current="page">1</a><a href="#position-title" aria-label="Page 2">2</a><a href="#overflow-title" aria-label="Page 3">3</a></nav>
+      <nav class="pagination-tight" aria-label="Pagination without spaces"><a href="#pagination-title" aria-label="Page 1" aria-current="page">1</a><a href="#position-title" aria-label="Page 2">2</a><a href="#overflow-title" aria-label="Page 3">3</a></nav>
+    </section>
+
+    <section aria-labelledby="position-title">
+      <h2 id="position-title">Positioning</h2>
+      <p class="sticky-note">position: sticky</p>
+      <div class="position-demo">
+        <div class="position-static">position: static (the normal document flow)</div>
+        <div class="position-relative">position: relative (keeps its place; anchors the absolute label)<span class="position-absolute">position: absolute</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="overflow-title">
+      <h2 id="overflow-title">Scrollable overflow</h2>
+      <div class="scroll-box" tabindex="0" aria-label="Scrollable example">This box has a fixed height and overflow set to auto. When content is taller than the box, it can be scrolled without making the entire page jump. Scroll this region to read the rest. Overflow control is useful for logs, code samples, and compact panels, but avoid hiding important content behind a scroll area without an accessible indication.</div>
+    </section>
+
+    <section aria-labelledby="opacity-title">
+      <h2 id="opacity-title">Image opacity</h2>
+      <p class="note">The image is translucent until hovered.</p>
+      <img class="opacity-image" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=80" alt="Team collaborating around a laptop">
+    </section>
+  </main>
+</body>
+</html>

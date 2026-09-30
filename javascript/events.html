@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Events and Data</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { margin-top: 0; font-size: 28px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .note { color: #536b63; line-height: 1.7; }
+    section { padding: 26px 0; border-top: 1px solid #c9d8cf; }
+    .row { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
+    label { display: grid; gap: 6px; color: #536b63; font-size: 13px; }
+    input { min-height: 42px; padding: 9px 11px; border: 1px solid #9fb7a9; border-radius: 2px; font: inherit; }
+    input:focus-visible, button:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    button { min-height: 42px; padding: 10px 14px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    output, pre { display: block; min-height: 46px; margin: 12px 0 0; padding: 14px; background: #e5f0e8; white-space: pre-wrap; overflow-wrap: anywhere; }
+    code { color: #a83f2d; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">JavaScript / Assignment 03</p>
+    <h1>Events, validation &amp; data</h1>
+    <p class="note">An event listener connects a user action to code. These demos update the page and report their results visibly.</p>
+
+    <section aria-labelledby="date-title">
+      <h2 id="date-title">Current date and time</h2>
+      <button type="button" id="show-date">Show date and time</button>
+      <output id="date-output" aria-live="polite">The current local time will appear here.</output>
+    </section>
+
+    <section aria-labelledby="validation-title">
+      <h2 id="validation-title">Required-field validation</h2>
+      <form id="lesson-form">
+        <div class="row">
+          <label for="lesson-answer">Your answer
+            <input id="lesson-answer" name="answer" type="text" required minlength="2" autocomplete="off">
+          </label>
+          <button type="submit">Submit answer</button>
+        </div>
+      </form>
+      <output id="form-output" aria-live="polite">The browser blocks an empty answer before the submit handler runs.</output>
+    </section>
+
+    <section aria-labelledby="debug-title">
+      <h2 id="debug-title">Debugging with console.log()</h2>
+      <p class="note">Open the browser developer console to see the structured log; the same result is also shown below.</p>
+      <button type="button" id="debug">Log sample state</button>
+      <pre id="debug-output" aria-live="polite">No debug run yet.</pre>
+    </section>
+
+    <section aria-labelledby="cookie-title">
+      <h2 id="cookie-title">Set, get, and check a cookie</h2>
+      <p class="note">The demo cookie only records that this browser ran the example. Browsers may restrict cookies on file:// pages; they work when served from localhost or a website.</p>
+      <button type="button" id="check-cookie">Set and check demo cookie</button>
+      <output id="cookie-output" aria-live="polite">No cookie checked yet.</output>
+    </section>
+
+    <section aria-labelledby="json-title">
+      <h2 id="json-title">JSON and dot notation</h2>
+      <button type="button" id="read-json">Read JSON object</button>
+      <output id="json-output" aria-live="polite">Choose the button to read the object properties.</output>
+    </section>
+  </main>
+  <script>
+    document.querySelector("#show-date").addEventListener("click", () => {
+      document.querySelector("#date-output").textContent = new Date().toLocaleString();
+    });
+
+    const lessonForm = document.querySelector("#lesson-form");
+    const answerField = document.querySelector("#lesson-answer");
+    answerField.addEventListener("input", () => answerField.setCustomValidity(""));
+    lessonForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const answer = answerField.value.trim();
+      if (answer.length < 2) {
+        answerField.setCustomValidity("Enter at least two non-space characters.");
+        answerField.reportValidity();
+        return;
+      }
+      document.querySelector("#form-output").textContent = `Submitted: ${answer}`;
+    });
+
+    document.querySelector("#debug").addEventListener("click", () => {
+      const state = { page: "JavaScript Events", action: "debug button clicked", timestamp: new Date().toISOString() };
+      console.log("Assignment debug sample:", state);
+      document.querySelector("#debug-output").textContent = JSON.stringify(state, null, 2);
+    });
+
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+    }
+
+    function getCookie(name) {
+      const prefix = `${encodeURIComponent(name)}=`;
+      const cookie = document.cookie.split("; ").find((item) => item.startsWith(prefix));
+      return cookie ? decodeURIComponent(cookie.slice(prefix.length)) : "";
+    }
+
+    function checkCookie(name) {
+      const value = getCookie(name);
+      return value ? `Found ${name}=${value}` : `No ${name} cookie is available in this browser context.`;
+    }
+
+    document.querySelector("#check-cookie").addEventListener("click", () => {
+      setCookie("assignmentVisited", "yes", 1);
+      document.querySelector("#cookie-output").textContent = checkCookie("assignmentVisited");
+    });
+
+    document.querySelector("#read-json").addEventListener("click", () => {
+      const learner = { name: "Asha Rao", course: "JavaScript", active: true };
+      document.querySelector("#json-output").textContent = `learner.name: ${learner.name}\nlearner.course: ${learner.course}\nlearner.active: ${learner.active}`;
+    });
+  </script>
+</body>
+</html>

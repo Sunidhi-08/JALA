@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" ng-app="jalaBasics">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AngularJS Basics</title>
+  <link rel="stylesheet" href="angular.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="basics.js"></script>
+</head>
+<body>
+  <main ng-controller="BasicsController" ng-init="learnerName = 'Asha'; topics = ['Modules', 'Directives', 'Controllers', 'Scope']">
+    <p class="eyebrow">AngularJS / Assignment 01</p>
+    <h1>AngularJS basics</h1>
+    <p class="intro">AngularJS 1.x is a legacy framework. This page is a small learning sandbox for interpolation, modules, directives, controllers, models, and scope.</p>
+
+    <section aria-labelledby="expressions-title">
+      <h2 id="expressions-title">Expressions and a color model</h2>
+      <label class="field">Your name
+        <input type="text" ng-model="learnerName">
+      </label>
+      <p>Hello, <strong>{{ learnerName }}</strong>. Angular expressions use double curly braces.</p>
+      <label class="field">Choose a background color
+        <input type="color" ng-model="backgroundColor">
+      </label>
+      <input class="color-preview" type="text" ng-model="backgroundColor" ng-style="{'background-color': backgroundColor}" aria-label="Background color value">
+    </section>
+
+    <section aria-labelledby="binding-title">
+      <h2 id="binding-title">ng-model, ng-init, and ng-repeat</h2>
+      <p>Edit the name above; the bound value updates here too: <span class="name-result">{{ learnerName }}</span></p>
+      <ul class="topic-list"><li ng-repeat="topic in topics track by $index">{{ $index + 1 }}. {{ topic }}</li></ul>
+      <lesson-badge label="Rendered by a custom directive"></lesson-badge>
+    </section>
+
+    <section aria-labelledby="include-title">
+      <h2 id="include-title">ng-include from a separate file</h2>
+      <div ng-include="'fragments/topics.html'"></div>
+    </section>
+
+    <section aria-labelledby="scope-title">
+      <h2 id="scope-title">$scope and $rootScope</h2>
+      <p>Controller scope: <strong>{{ scopeMessage }}</strong></p>
+      <p>Root scope value: <strong>{{ rootCourseName }}</strong></p>
+    </section>
+  </main>
+</body>
+</html>

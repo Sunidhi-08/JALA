@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Compatibility and Responsive Layout</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(980px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 66px); }
+    h2 { margin-top: 0; font-size: 29px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    section { padding: 30px 0; border-top: 1px solid #c9d8cf; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: auto; }
+    th, td { padding: 11px; border: 1px solid #536b63; text-align: left; }
+    .table-fixed table { table-layout: fixed; }
+    .table-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    button { min-height: 40px; padding: 9px 13px; border: 1px solid #17392f; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    .note { color: #536b63; line-height: 1.7; }
+    .list-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .list-grid ul { padding-left: 24px; }
+    .list-disc { list-style-type: disc; }
+    .list-roman { list-style-type: upper-roman; }
+    .grid-demo { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 10px; }
+    .grid-demo > div { min-height: 80px; padding: 14px; background: #cce9d8; }
+    .grid-demo > div:nth-child(2) { background: #f3c76a; }
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px; margin-top: 14px; }
+    .grid-cards > div { min-height: 96px; padding: 16px; border: 1px solid #9fb7a9; background: white; }
+    .hero-image { display: block; width: 100%; max-height: 440px; aspect-ratio: 16 / 7; object-fit: cover; }
+    .hero-caption { margin: 8px 0 0; color: #536b63; font-size: 13px; }
+    .media-frame { width: 100%; aspect-ratio: 16 / 9; background: #17392f; }
+    .media-frame video { display: block; width: 100%; height: 100%; object-fit: contain; }
+    @media (max-width: 650px) {
+      .list-grid { grid-template-columns: 1fr; gap: 6px; }
+      .grid-demo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-demo > div:last-child { grid-column: 1 / -1; }
+      .hero-image { aspect-ratio: 4 / 3; }
+    }
+    @media (max-width: 380px) { .grid-demo { grid-template-columns: 1fr; } .grid-demo > div:last-child { grid-column: auto; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">CSS / Assignment 04</p>
+    <h1>Layout that adapts.</h1>
+    <p class="note">Tables, lists, grids, images, and video need intentional sizing to remain readable across viewports.</p>
+
+    <section aria-labelledby="table-title">
+      <h2 id="table-title">Table layout</h2>
+      <div class="table-controls" role="group" aria-label="Table layout mode">
+        <button type="button" id="auto-mode" aria-pressed="true">Automatic layout</button>
+        <button type="button" id="fixed-mode" aria-pressed="false">Fixed layout</button>
+      </div>
+      <div class="table-wrap" id="table-demo">
+        <table>
+          <thead><tr><th>Mode</th><th>How the browser sizes columns</th><th>Example content</th></tr></thead>
+          <tbody>
+            <tr><td>Automatic (default)</td><td>Column widths respond to cell content.</td><td>A naturally wider sentence can take more room.</td></tr>
+            <tr><td>Fixed</td><td>Column widths are determined from the table and first row.</td><td>This longer text wraps inside its assigned column instead of resizing it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note"><code>table-layout</code> accepts <code>auto</code> or <code>fixed</code>; <code>none</code> is not a valid value. The automatic mode is the default.</p>
+    </section>
+
+    <section aria-labelledby="lists-title">
+      <h2 id="lists-title">List markers</h2>
+      <div class="list-grid">
+        <div><h3>Disc</h3><ul class="list-disc"><li>Semantic HTML</li><li>Readable content</li><li>Useful links</li></ul></div>
+        <div><h3>Upper Roman</h3><ul class="list-roman"><li>Plan the structure</li><li>Style the page</li><li>Test on mobile</li></ul></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="grid-title">
+      <h2 id="grid-title">Responsive grids</h2>
+      <div class="grid-demo"><div>One fraction</div><div>Two fractions</div><div>One fraction</div></div>
+      <div class="grid-cards"><div>Auto-fit column</div><div>Auto-fit column</div><div>Auto-fit column</div></div>
+    </section>
+
+    <section aria-labelledby="hero-title">
+      <h2 id="hero-title">Hero image</h2>
+      <img class="hero-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1500&q=85" alt="A laptop showing code on a desk">
+      <p class="hero-caption">A wide image with a stable aspect ratio and responsive width.</p>
+    </section>
+
+    <section aria-labelledby="video-title">
+      <h2 id="video-title">Responsive video</h2>
+      <div class="media-frame"><video controls preload="metadata" poster="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=80"><source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">Your browser does not support HTML video.</video></div>
+    </section>
+  </main>
+  <script>
+    const tableDemo = document.querySelector("#table-demo");
+    const autoButton = document.querySelector("#auto-mode");
+    const fixedButton = document.querySelector("#fixed-mode");
+
+    autoButton.addEventListener("click", () => {
+      tableDemo.classList.remove("table-fixed");
+      autoButton.setAttribute("aria-pressed", "true");
+      fixedButton.setAttribute("aria-pressed", "false");
+    });
+
+    fixedButton.addEventListener("click", () => {
+      tableDemo.classList.add("table-fixed");
+      autoButton.setAttribute("aria-pressed", "false");
+      fixedButton.setAttribute("aria-pressed", "true");
+    });
+  </script>
+</body>
+</html>

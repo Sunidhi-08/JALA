@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" ng-app="jalaValidation">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AngularJS Elements, Validation, and Routing</title>
+  <link rel="stylesheet" href="angular.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+  <script src="validations.js"></script>
+  <style>
+    .signup-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 720px; }
+    .signup-form label { display: grid; gap: 6px; color: #536b63; font-size: 13px; }
+    .signup-form input, .signup-form select { min-height: 42px; padding: 8px 10px; border: 1px solid #9fb7a9; border-radius: 2px; font: inherit; }
+    .signup-form .choice-row, .signup-form .submit-row, .signup-form .full { grid-column: 1 / -1; }
+    .choice-row { display: flex; flex-wrap: wrap; gap: 16px; }
+    .choice-row label { display: flex; align-items: center; gap: 7px; }
+    .error { color: #a83f2d; font-size: 12px; }
+    button { min-height: 42px; padding: 10px 14px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    .animated-note { max-height: 100px; margin: 14px 0; padding: 14px; overflow: hidden; background: #cce9d8; opacity: 1; transition: opacity 240ms ease, max-height 240ms ease, padding 240ms ease, margin 240ms ease; }
+    .animated-note.ng-hide { display: block !important; max-height: 0; margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+    .route-nav { display: flex; gap: 16px; margin: 12px 0; }
+    .route-view { min-height: 90px; padding: 16px; border-left: 3px solid #d9573b; background: #e5f0e8; }
+    .route-view h3 { margin-top: 0; font-family: Georgia, serif; font-weight: 500; }
+    @media (max-width: 580px) { .signup-form { grid-template-columns: 1fr; } .signup-form .choice-row, .signup-form .submit-row, .signup-form .full { grid-column: auto; } }
+    @media (prefers-reduced-motion: reduce) { .animated-note { transition-duration: 0.01ms; } }
+  </style>
+</head>
+<body>
+  <main ng-controller="ValidationController">
+    <p class="eyebrow">AngularJS / Assignment 05</p>
+    <h1>Forms, validation &amp; routes</h1>
+    <p class="intro">AngularJS can bind native form elements, report validity, animate state changes, and switch views with a route.</p>
+
+    <section aria-labelledby="form-title">
+      <h2 id="form-title">Validated learner form</h2>
+      <form name="signupForm" class="signup-form" ng-submit="submitForm(signupForm)" novalidate>
+        <label for="learner-name">Name
+          <input id="learner-name" name="learnerName" type="text" ng-model="learner.name" required>
+          <span class="error" ng-show="signupForm.$submitted && signupForm.learnerName.$error.required">Name is required.</span>
+        </label>
+        <label for="learner-email">Email
+          <input id="learner-email" name="learnerEmail" type="email" ng-model="learner.email" required>
+          <span class="error" ng-show="signupForm.$submitted && signupForm.learnerEmail.$invalid">Enter a valid email address.</span>
+        </label>
+        <label for="learner-handle">Handle (letters, numbers, underscore)
+          <input id="learner-handle" name="learnerHandle" type="text" ng-model="learner.handle" valid-handle required>
+          <span class="error" ng-show="signupForm.$submitted && signupForm.learnerHandle.$error.validHandle">Use letters, numbers, or underscores only.</span>
+        </label>
+        <label for="learning-track">Track
+          <select id="learning-track" name="track" ng-model="learner.track" required>
+            <option value="">Choose a track</option><option>HTML and CSS</option><option>JavaScript</option><option>AngularJS</option>
+          </select>
+        </label>
+        <div class="choice-row full" role="group" aria-label="Preferred learning style">
+          <label><input type="radio" name="style" ng-model="learner.style" value="Reading" required> Reading</label>
+          <label><input type="radio" name="style" ng-model="learner.style" value="Practice" required> Practice</label>
+          <label><input type="checkbox" name="terms" ng-model="learner.accepted" required> I agree to the course terms</label>
+        </div>
+        <div class="submit-row"><button type="submit" ng-disabled="signupForm.$invalid">Submit valid form</button></div>
+      </form>
+      <p class="note" aria-live="polite">{{ submitMessage }}</p>
+    </section>
+
+    <section aria-labelledby="animation-title">
+      <h2 id="animation-title">ng-show and ng-hide animation</h2>
+      <label><input type="checkbox" ng-model="showAnimation"> Show animated note</label>
+      <p class="animated-note" ng-show="showAnimation">This region animates as AngularJS adds or removes its ng-hide state.</p>
+    </section>
+
+    <section aria-labelledby="routing-title">
+      <h2 id="routing-title">ngRoute, $routeProvider, and otherwise()</h2>
+      <nav class="route-nav" aria-label="AngularJS demo routes"><a href="#!/home">Home route</a><a href="#!/about">About route</a></nav>
+      <div class="route-view" ng-view></div>
+      <p class="note">An unknown path is redirected to the home route by <code>$routeProvider.otherwise()</code>.</p>
+    </section>
+  </main>
+
+  <script type="text/ng-template" id="home.html"><h3>Home route</h3><p>This view is selected by the AngularJS router.</p></script>
+  <script type="text/ng-template" id="about.html"><h3>About route</h3><p>The URL hash changed, and ng-view rendered this second template.</p></script>
+</body>
+</html>

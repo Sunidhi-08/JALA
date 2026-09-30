@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML5 Input Types and Attributes</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 42px 0 64px; }
+    a { color: #a83f2d; }
+    a:hover { color: #17392f; }
+    a:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(36px, 7vw, 62px); }
+    h2 { margin: 0 0 16px; font-size: 28px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .intro { max-width: 650px; color: #536b63; line-height: 1.7; }
+    .form-section { padding: 28px 0; border-top: 1px solid #c9d8cf; }
+    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .field { display: grid; align-content: start; gap: 7px; color: #536b63; font-size: 14px; }
+    .field input, .field select { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid #9fb7a9; border-radius: 2px; background: white; color: #17392f; font: inherit; }
+    .choice-row { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 18px 0; }
+    .choice { display: flex; align-items: center; gap: 8px; color: #536b63; }
+    .choice input { accent-color: #d9573b; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    button, input[type="submit"], input[type="reset"] { min-height: 42px; padding: 10px 16px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    input[type="reset"] { background: #dce9df; color: #17392f; }
+    .note { color: #536b63; font-size: 13px; line-height: 1.6; }
+    iframe { width: 100%; height: 110px; border: 1px solid #9fb7a9; background: white; }
+    marquee { padding: 12px; background: #cce9d8; }
+    @media (max-width: 580px) { .field-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">HTML5 / Assignment 02</p>
+    <h1>Input types &amp; attributes</h1>
+    <p class="intro">A form can use purpose-built controls and browser validation. Try the required fields, number limits, and reset button. The examples submit harmless sample values back to this page.</p>
+
+    <form action="#submitted" method="get" target="_self">
+      <section class="form-section" aria-labelledby="classic-title">
+        <h2 id="classic-title">Text and choices</h2>
+        <div class="field-grid">
+          <label class="field">Name (required, limited length)
+            <input type="text" name="name" placeholder="Your name" size="32" maxlength="40" required>
+          </label>
+          <label class="field">Password (minimum length)
+            <input type="password" name="password" minlength="8" required autocomplete="new-password">
+          </label>
+          <label class="field">Read-only sample
+            <input type="text" value="This value cannot be edited" readonly>
+          </label>
+          <label class="field">Disabled sample
+            <input type="text" value="Unavailable" disabled>
+          </label>
+        </div>
+        <div class="choice-row" role="group" aria-label="Preferred study mode">
+          <label class="choice"><input type="radio" name="mode" value="reading" checked> Reading</label>
+          <label class="choice"><input type="radio" name="mode" value="practice"> Practice</label>
+          <label class="choice"><input type="checkbox" name="updates" value="yes"> Send me updates</label>
+        </div>
+      </section>
+
+      <section class="form-section" aria-labelledby="html5-title">
+        <h2 id="html5-title">HTML5 input types</h2>
+        <div class="field-grid">
+          <label class="field">Number (1 to 10)
+            <input type="number" name="rating" min="1" max="10" value="5">
+          </label>
+          <label class="field">Range
+            <input type="range" name="confidence" min="0" max="100" value="60">
+          </label>
+          <label class="field">Color
+            <input type="color" name="accent" value="#d9573b">
+          </label>
+          <label class="field">Date
+            <input type="date" name="date">
+          </label>
+          <label class="field">File
+            <input type="file" name="attachment" accept="image/*">
+          </label>
+          <label class="field">Time
+            <input type="time" name="time">
+          </label>
+          <label class="field">Month
+            <input type="month" name="month">
+          </label>
+          <label class="field">Week
+            <input type="week" name="week">
+          </label>
+          <label class="field">Email (required)
+            <input type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+          </label>
+        </div>
+        <div class="actions">
+          <input type="submit" value="Submit sample">
+          <input type="reset" value="Reset form">
+          <button type="button" onclick="this.textContent = 'Button clicked'">Try button</button>
+        </div>
+      </section>
+    </form>
+
+    <section class="form-section" id="submitted" aria-labelledby="targets-title">
+      <h2 id="targets-title">Targets, iframe, and marquee</h2>
+      <p class="note"><a href="#submitted" target="_self">Open this section in the same tab (_self)</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input" target="_blank" rel="noopener">Open input reference in a new tab (_blank)</a></p>
+      <iframe title="Embedded HTML example" srcdoc="<!doctype html><html lang='en'><body style='font:16px sans-serif;padding:16px;color:#17392f'><strong>Embedded document</strong><p>This content is provided by the iframe's srcdoc attribute.</p></body></html>"></iframe>
+      <p class="note">The <code>marquee</code> element below is obsolete HTML. It is included only to recognize the requested legacy tag; use CSS animations for production motion.</p>
+      <marquee behavior="scroll" direction="left">Legacy marquee demonstration · Prefer accessible CSS motion in real projects.</marquee>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" ng-app="jalaJson">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AngularJS JSON and Collections</title>
+  <link rel="stylesheet" href="angular.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="json.js"></script>
+  <style>
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 18px 0; }
+    .toolbar label { display: grid; gap: 6px; color: #536b63; font-size: 13px; }
+    .toolbar input, .toolbar select { min-height: 42px; padding: 8px 10px; border: 1px solid #9fb7a9; border-radius: 2px; font: inherit; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 10px; border-bottom: 1px solid #c9d8cf; }
+    .even-row { background: #e5f0e8; }
+    .odd-row { background: #fff; }
+    .note { color: #536b63; line-height: 1.7; }
+    button { min-height: 40px; padding: 9px 13px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main ng-controller="JsonController">
+    <p class="eyebrow">AngularJS / Assignment 03</p>
+    <h1>JSON and collections</h1>
+    <p class="intro">The student records load from <code>students.json</code>. Search or sort the table, then compare the two ways to create a select list.</p>
+
+    <section aria-labelledby="table-title">
+      <h2 id="table-title">JSON table with filters</h2>
+      <div class="toolbar">
+        <label for="search">Filter rows
+          <input id="search" type="search" ng-model="searchText" placeholder="Name or learning track">
+        </label>
+        <label for="sort">Sort by
+          <select id="sort" ng-model="sortField"><option value="name">Name</option><option value="track">Track</option><option value="progress">Progress</option></select>
+        </label>
+      </div>
+      <p class="note" aria-live="polite">{{ loading ? 'Loading JSON...' : filteredStudents.length + ' matching learners' }}</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">$index</th><th scope="col">Parity</th><th scope="col">Name</th><th scope="col">Track</th><th scope="col">Progress</th></tr></thead>
+          <tbody>
+            <tr ng-repeat="student in students | filter:searchText | orderBy:sortField as filteredStudents track by student.id" ng-class="$even ? 'even-row' : 'odd-row'">
+              <td>{{ $index }}</td><td>{{ $even ? '$even' : '$odd' }}</td><th scope="row">{{ student.name }}</th><td>{{ student.track }}</td><td>{{ student.progress }}%</td>
+            </tr>
+            <tr ng-if="!loading && filteredStudents.length === 0"><td colspan="5">No learners match that filter.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="select-title">
+      <h2 id="select-title">ng-options and ng-repeat</h2>
+      <div class="toolbar">
+        <label for="options-select">Built with ng-options
+          <select id="options-select" ng-model="selectedWithOptions" ng-options="student as student.name for student in students track by student.id"><option value="">Choose a learner</option></select>
+        </label>
+        <label for="repeat-select">Built with ng-repeat
+          <select id="repeat-select" ng-model="selectedWithRepeat">
+            <option value="">Choose a learner</option>
+            <option ng-repeat="student in students" value="{{ student.id }}">{{ student.name }}</option>
+          </select>
+        </label>
+      </div>
+      <p class="note">ng-options can bind the selected value to the original object; ng-repeat creates regular option elements, and values are strings unless converted.</p>
+      <p>ng-options selection: <strong>{{ selectedWithOptions.name || 'none' }}</strong></p>
+      <p>ng-repeat selection ID: <strong>{{ selectedWithRepeat || 'none' }}</strong></p>
+    </section>
+  </main>
+</body>
+</html>

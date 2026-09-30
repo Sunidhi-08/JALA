@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Basics</title>
+  <style>
+    :root { font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(900px, calc(100% - 36px)); margin: 0 auto; padding: 40px 0 64px; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { margin-top: 0; font-size: 28px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    section { padding: 26px 0; border-top: 1px solid #c9d8cf; }
+    .note { color: #536b63; line-height: 1.7; }
+    button { min-height: 42px; padding: 10px 14px; border: 0; border-radius: 2px; background: #17392f; color: white; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    pre, output { display: block; overflow-x: auto; padding: 14px; background: #e5f0e8; color: #17392f; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .fruit-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; }
+    .fruit-list li { padding: 8px 11px; border: 1px solid #9fb7a9; background: white; }
+    .actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    code { color: #a83f2d; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">JavaScript / Assignment 01</p>
+    <h1>Make the page respond.</h1>
+    <p class="note">JavaScript adds behavior to a web page. These short examples show arrays, objects, loops, declarations, and strict mode.</p>
+
+    <section aria-labelledby="comments-title">
+      <h2 id="comments-title">Comments</h2>
+      <pre><code>// A single-line comment explains one instruction.
+const greeting = "Hello";
+
+/* A multiline comment can explain a larger idea
+   without being executed as JavaScript. */
+console.log(greeting);</code></pre>
+    </section>
+
+    <section aria-labelledby="fruit-title">
+      <h2 id="fruit-title">Sort fruits descending</h2>
+      <p class="note">Choose the button to sort the array from Z to A.</p>
+      <ul class="fruit-list" id="fruit-list" aria-live="polite"></ul>
+      <button type="button" id="sort-fruits">Sort Z to A</button>
+    </section>
+
+    <section aria-labelledby="object-title">
+      <h2 id="object-title">for/in and object properties</h2>
+      <p class="note">A <code>for...in</code> loop visits enumerable property names. Dot notation and bracket notation both read the person's first and last name.</p>
+      <div class="actions">
+        <button type="button" id="inspect-person">Inspect person</button>
+        <button type="button" id="hoisting">Show var hoisting</button>
+        <button type="button" id="strict-mode">Try strict mode</button>
+      </div>
+      <output id="object-output" aria-live="polite">Choose an example to see its result.</output>
+    </section>
+
+    <section aria-labelledby="language-title">
+      <h2 id="language-title">JavaScript and Java</h2>
+      <p class="note">Despite the similar names, JavaScript and Java are different languages. JavaScript is dynamically typed and commonly runs in browsers and server runtimes. Java is statically typed, compiled to bytecode, and runs on the Java Virtual Machine. Their syntax has some historical similarities, but their type systems, runtimes, and ecosystems differ.</p>
+    </section>
+  </main>
+  <script>
+    const fruits = ["Mango", "apple", "Pear", "banana", "Orange"];
+    const fruitList = document.querySelector("#fruit-list");
+    const output = document.querySelector("#object-output");
+
+    function renderFruits(items) {
+      fruitList.replaceChildren(...items.map((fruit) => {
+        const item = document.createElement("li");
+        item.textContent = fruit;
+        return item;
+      }));
+    }
+
+    renderFruits(fruits);
+
+    document.querySelector("#sort-fruits").addEventListener("click", () => {
+      fruits.sort((first, second) => second.localeCompare(first, undefined, { sensitivity: "base" }));
+      renderFruits(fruits);
+    });
+
+    document.querySelector("#inspect-person").addEventListener("click", () => {
+      const person = { firstname: "Asha", lastname: "Rao", role: "Learner" };
+      const propertyLines = [];
+
+      for (const property in person) {
+        if (Object.hasOwn(person, property)) propertyLines.push(`${property}: ${person[property]}`);
+      }
+
+      output.textContent = `Dot notation: ${person.firstname} ${person.lastname}\nBracket notation: ${person["firstname"]} ${person["lastname"]}\nfor/in properties:\n${propertyLines.join("\n")}`;
+    });
+
+    document.querySelector("#hoisting").addEventListener("click", () => {
+      function showHoisting() {
+        heading = "Assigned before the var declaration";
+        var heading;
+        return heading;
+      }
+
+      output.textContent = `${showHoisting()}\nThe var declaration is hoisted within its function scope; the assignment still runs in order.`;
+    });
+
+    document.querySelector("#strict-mode").addEventListener("click", () => {
+      function strictExample() {
+        "use strict";
+        try {
+          undeclaredLessonVariable = "This assignment is not allowed";
+        } catch (error) {
+          return `${error.name}: ${error.message}\nStrict mode prevents accidental creation of undeclared variables.`;
+        }
+      }
+
+      output.textContent = strictExample();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Page Adjustments</title>
+  <style>
+    :root { scroll-behavior: smooth; font-family: "Trebuchet MS", sans-serif; color: #17392f; background: #f3f7f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(920px, calc(100% - 36px)); margin: 0 auto; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 500; }
+    h1 { margin: 8px 0; font-size: clamp(38px, 7vw, 64px); }
+    h2 { font-size: 29px; }
+    .eyebrow { color: #a83f2d; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .topbar { position: sticky; top: 0; z-index: 1; padding: 12px 0; border-bottom: 1px solid #c9d8cf; background: rgb(243 247 243 / 95%); }
+    .topbar a { margin-right: 18px; color: #a83f2d; }
+    .topbar a:focus-visible { outline: 3px solid #d9573b; outline-offset: 3px; }
+    section { padding: 34px 0; border-bottom: 1px solid #c9d8cf; }
+    table { width: 100%; border: 2px solid #000; border-collapse: collapse; text-align: left; }
+    th, td { padding: 12px; border: 1px solid #000; }
+    tbody tr { transition: background-color 160ms ease, color 160ms ease; }
+    tbody tr:hover { background-color: #17392f; color: white; }
+    .visibility-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .visibility-sample { min-height: 96px; padding: 14px; border: 1px solid #9fb7a9; background: #fff; }
+    .hidden-child { visibility: hidden; }
+    .visible-child { visibility: visible; }
+    .collapse-row { visibility: collapse; }
+    .display-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .display-demo > * { padding: 9px; background: #cce9d8; }
+    .display-none { display: none; }
+    .display-inline { display: inline; }
+    .display-block { display: block; }
+    .display-contents { display: contents; }
+    .display-list { display: list-item; margin-left: 24px; list-style: square; }
+    .spacing-demo { padding: 18px; border: 1px solid #17392f; background: #fff; }
+    .margin-box { margin: 22px 40px 8px 10px; padding: 15px; background: #f3c76a; }
+    .padding-box { padding: 24px 10px 8px 30px; background: #cce9d8; }
+    .multi-background {
+      min-height: 250px;
+      padding: 24px;
+      border: 1px solid #9fb7a9;
+      background-color: #dce9df;
+      background-image: linear-gradient(135deg, rgb(23 57 47 / 85%), rgb(23 57 47 / 10%)), url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1000&q=80");
+      background-position: center, center;
+      background-repeat: no-repeat;
+      background-size: cover, 100% 100%;
+      color: white;
+    }
+    .long-section { min-height: 640px; padding-top: 54px; }
+    .long-section p { max-width: 660px; line-height: 1.8; }
+    .bottom-link { display: inline-block; margin-top: 28px; padding: 12px 15px; background: #17392f; color: white; text-decoration: none; }
+    .outline-note { outline: 3px dashed #d9573b; outline-offset: 4px; }
+    @media (max-width: 620px) { .visibility-grid { grid-template-columns: 1fr; } th, td { padding: 8px; font-size: 13px; } .margin-box { margin-right: 16px; } }
+  </style>
+</head>
+<body id="top">
+  <main>
+    <p class="eyebrow">CSS / Assignment 02</p>
+    <h1>Page adjustments</h1>
+    <p>Small CSS properties affect layout, visibility, and navigation. Hover the table rows; use the long-page links to travel smoothly.</p>
+    <nav class="topbar" aria-label="Page navigation">
+      <a href="#table">Table</a><a href="#visibility">Visibility</a><a href="#spacing">Spacing</a><a href="#backgrounds">Backgrounds</a>
+    </nav>
+
+    <section id="table">
+      <h2>Black table borders and hover color</h2>
+      <table>
+        <thead><tr><th scope="col">Property</th><th scope="col">Effect</th></tr></thead>
+        <tbody>
+          <tr><td>padding</td><td>Space inside the border</td></tr>
+          <tr><td>margin</td><td>Space outside the border</td></tr>
+          <tr><td>outline-style</td><td>Line pattern used by an outline</td></tr>
+        </tbody>
+      </table>
+      <p class="outline-note">The <code>outline-style</code> property sets the line style of an outline.</p>
+    </section>
+
+    <section id="visibility">
+      <h2>Visibility and display</h2>
+      <p><code>visibility: hidden</code> keeps the element's layout space; <code>display: none</code> removes it from layout. On table rows, <code>visibility: collapse</code> collapses the row.</p>
+      <div class="visibility-grid">
+        <div class="visibility-sample">Visible: <span class="visible-child">I take up space.</span></div>
+        <div class="visibility-sample">Hidden: <span class="hidden-child">I am hidden, but keep space.</span></div>
+        <div class="visibility-sample">The table below uses visibility: collapse on its second row.</div>
+      </div>
+      <table aria-label="Table demonstrating collapsed visibility">
+        <tbody><tr><td>First row</td></tr><tr class="collapse-row"><td>Collapsed row</td></tr><tr><td>Last row</td></tr></tbody>
+      </table>
+      <h3>Display values</h3>
+      <div class="display-demo">
+        <span class="display-none">display: none</span>
+        <span class="display-inline">display: inline</span>
+        <span class="display-block">display: block</span>
+        <span class="display-contents"><span>display: contents (wrapper box removed)</span></span>
+        <span class="display-list">display: list-item</span>
+      </div>
+    </section>
+
+    <section class="long-section" aria-labelledby="long-title">
+      <h2 id="long-title">A longer page</h2>
+      <p>Use a fragment link to move to an element with a matching ID. The document's <code>scroll-behavior: smooth</code> rule animates that jump. The sticky navigation remains near the top as this section scrolls.</p>
+      <p>Inline elements such as links can sit within a line of text. Block-level elements such as paragraphs begin on a new line and normally fill their available width. CSS can change either behavior with the <code>display</code> property.</p>
+      <a class="bottom-link" href="#bottom">Click to go to bottom of page</a>
+    </section>
+
+    <section id="spacing">
+      <h2>Margin and padding</h2>
+      <div class="spacing-demo">
+        <div class="margin-box">This yellow element has margin outside its box.</div>
+        <div class="padding-box">This green element has padding between its content and edge.</div>
+      </div>
+      <p>Margin separates an element from its neighbors. Padding creates breathing room inside its border.</p>
+    </section>
+
+    <section id="backgrounds">
+      <h2>Layered backgrounds</h2>
+      <div class="multi-background">Two layers: a readable color overlay and a background photograph. Each layer can use its own size and position.</div>
+    </section>
+
+    <section id="bottom" class="long-section">
+      <h2>Bottom of the page</h2>
+      <p>Selectors choose which elements receive a rule. Type selectors match tags, class selectors match a class, and pseudo-classes such as <code>:hover</code> match a state.</p>
+      <a class="bottom-link" href="#top">Click to go to top of page</a>
+    </section>
+  </main>
+</body>
+</html>

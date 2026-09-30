@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" ng-app="jalaFilters">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AngularJS Filters and Services</title>
+  <link rel="stylesheet" href="angular.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="filters.js"></script>
+</head>
+<body>
+  <main ng-controller="FiltersController">
+    <p class="eyebrow">AngularJS / Assignment 02</p>
+    <h1>Filters &amp; services</h1>
+    <p class="intro">AngularJS filters format values for display. Services share reusable work such as HTTP requests and timers.</p>
+
+    <section aria-labelledby="filters-title">
+      <h2 id="filters-title">Built-in and custom filters</h2>
+      <p>uppercase: <strong>{{ sampleText | uppercase }}</strong></p>
+      <p>lowercase: <strong>{{ sampleText | lowercase }}</strong></p>
+      <p>date: <strong>{{ sampleDate | date:'longDate' }}</strong></p>
+      <p>number: <strong>{{ sampleNumber | number:2 }}</strong></p>
+      <p>custom wordCase filter: <strong>{{ sampleText | wordCase }}</strong></p>
+      <p class="note">Legacy API compatibility check: {{ legacyCaseMessage }}</p>
+    </section>
+
+    <section aria-labelledby="services-title">
+      <h2 id="services-title">$location, $timeout, and a custom service</h2>
+      <p>Current page URL from <code>$location</code>: <strong>{{ currentUrl }}</strong></p>
+      <p><code>$timeout</code> status: <strong>{{ timerMessage }}</strong></p>
+      <div class="button-row">
+        <button type="button" ng-click="loadPost()">GET sample post</button>
+        <button type="button" ng-click="createPost()">POST sample post</button>
+      </div>
+      <p class="note">Requests use JSONPlaceholder for practice. They are sent only when you press a button.</p>
+      <pre class="result" aria-live="polite">{{ responseSummary }}</pre>
+    </section>
+  </main>
+</body>
+</html>
